@@ -1,0 +1,22 @@
+# Unity project files, if a project is created here for local development.
+/Assets/
+/Library/
+/Temp/
+/Obj/
+/Logs/
+/UserSettings/
+/Packages/
+/ProjectSettings/
+/Build/
+/Builds/
+
+# IDE and operating system files. Unity .meta files and shipped DLLs are tracked.
+/.vs/
+/.idea/
+*.csproj
+*.sln
+*.slnx
+*.user
+*.suo
+.DS_Store
+Thumbs.db
