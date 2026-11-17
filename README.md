@@ -1,54 +1,56 @@
-# DOTween для Unity Package Manager
+# DOTween for Unity Package Manager
 
-Неофициальная UPM-упаковка DOTween **1.3.045** от Demigiant. Версия пакета —
-`1.3.45`: SemVer не допускает ведущие нули в номере patch.
-Минимальная заявленная версия Unity — **2021.3**.
+An unofficial UPM package of DOTween **1.3.045** by Demigiant. The package version
+is `1.3.45` because SemVer does not allow leading zeros in the patch number.
+The declared minimum Unity version is **2021.3**.
 
-## Установка через Git
+## Install from Git
 
-После публикации этого репозитория на Git-сервере:
+Once the UPM package files have been pushed to this repository:
 
-1. Откройте **Window > Package Manager** в Unity.
-2. Нажмите **+ > Add package from git URL…** (в новых версиях — **Install package from Git URL…**).
-3. Вставьте URL **этого** репозитория, например:
+1. Open **Window > Package Manager** in Unity.
+2. Select **+ > Add package from git URL...** (or **Install package from Git URL...** in newer versions).
+3. Enter this repository's URL:
 
    ```text
    https://github.com/PavelFoxx/DOTween.git
    ```
 
-Адрес соответствует `origin` этого репозитория. Установка станет доступна
-после отправки изменений UPM на сервер. `?path=` не нужен — `package.json`
-находится в корне.
-Для закрепления версии используйте существующий Git-тег или хеш коммита:
+This URL matches the repository's `origin` remote. No `?path=` parameter is
+required because `package.json` is at the repository root.
+To pin a version, append an existing Git tag or commit hash:
 
 ```text
 https://github.com/PavelFoxx/DOTween.git#v1.3.45
 ```
 
-Тег `v1.3.45` нужно создать и отправить на сервер при публикации.
-Альтернатива — добавить запись в `dependencies` файла **проекта** `Packages/manifest.json`:
+Create and push the `v1.3.45` tag when publishing that release.
+Alternatively, add the following entry to `dependencies` in your **project's**
+`Packages/manifest.json`:
 
 ```json
 "com.demigiant.dotween": "https://github.com/PavelFoxx/DOTween.git#v1.3.45"
 ```
 
-Unity должен иметь доступ к Git и репозиторию; для приватного репозитория
-настройте Git-аутентификацию на компьютере разработчика и в CI.
-Перед установкой удалите прежнюю копию DOTween из `Assets`, чтобы избежать
-дублирования DLL и классов модулей. Сохраните существующий `DOTweenSettings.asset`
-в `Assets/Resources`, если хотите перенести настройки.
+Unity must have access to Git and the repository. For a private repository,
+configure Git authentication on developer machines and in CI.
+Before installing, remove any previous DOTween copy from `Assets` to avoid
+duplicate DLLs and module classes. Keep your existing `DOTweenSettings.asset`
+in `Assets/Resources` if you want to preserve its settings.
 
-## Локальная проверка
+## Install locally
 
-В Package Manager выберите **Add package from disk…** и укажите
-`package.json` из этого каталога. Также можно подключить пакет через
-`Packages/manifest.json` проекта:
+In Package Manager, select **Add package from disk...** and choose this
+repository's `package.json`. You can also add the package to your project's
+`Packages/manifest.json` using a local path:
 
 ```json
 "com.demigiant.dotween": "file:D:/ProjectFiles/DOTween"
 ```
 
-## Использование
+Replace the path with the location of your local checkout.
+
+## Usage
 
 ```csharp
 using DG.Tweening;
@@ -63,57 +65,63 @@ public class TweenExample : MonoBehaviour
 }
 ```
 
-Пакет содержит готовую `DOTween.dll` и сборку `DOTween.Modules`.
-Модули Audio, Physics, Physics2D, Sprite и uGUI включены по умолчанию;
-зависимости Unity указаны в манифесте. Генерировать ASMDEF после установки
-не требуется. Если ваш код находится в собственной сборке `.asmdef`, добавьте
-ссылку на `DOTween.Modules`. При включённом **Override References** также
-добавьте `DOTween.dll` в **Assembly References**.
+The package includes the precompiled `DOTween.dll` and the `DOTween.Modules`
+assembly. Audio, Physics, Physics2D, Sprite, and uGUI modules are enabled by
+default, and their Unity dependencies are declared in the package manifest.
+You do not need to generate assembly definitions after installation.
+If your code uses its own `.asmdef`, add a reference to `DOTween.Modules`.
+If **Override References** is enabled, also add `DOTween.dll` to
+**Assembly References**.
 
-Настройки: **Tools > Demigiant > DOTween Settings**. Меню создаёт или открывает
-`Assets/Resources/DOTweenSettings.asset`; параметры изменяются в Inspector.
-Готовый settings-asset используется без перезаписи. DOTween работает с настройками
-по умолчанию, если этот asset не создан.
+Open **Tools > Demigiant > DOTween Settings** to create or select
+`Assets/Resources/DOTweenSettings.asset`, then edit its properties in the
+Inspector. Existing settings assets are preserved. DOTween uses its defaults
+if no settings asset exists.
 
-Для UI Toolkit добавьте `DOTWEEN_UITOOLKIT` в **Scripting Define Symbols**
-в Player Settings для нужных платформ. Для отключения стандартных модулей
-используйте `DOTWEEN_NOAUDIO`, `DOTWEEN_NOPHYSICS`, `DOTWEEN_NOPHYSICS2D`,
-`DOTWEEN_NOSPRITES`, `DOTWEEN_NOUI`. Поля старого Asset Store setup не управляют
-компиляцией модулей этой упаковки.
-Интеграция EPOOutline требует отдельного стороннего ассета и ссылок на его
-сборки в `DOTween.Modules`; она выключена по умолчанию. Для изменения ссылок
-в Git-пакете используйте собственную копию репозитория или embedded-пакет.
+To enable UI Toolkit, add `DOTWEEN_UITOOLKIT` to **Scripting Define Symbols**
+in Player Settings for the relevant platforms. To disable standard modules,
+use `DOTWEEN_NOAUDIO`, `DOTWEEN_NOPHYSICS`, `DOTWEEN_NOPHYSICS2D`,
+`DOTWEEN_NOSPRITES`, or `DOTWEEN_NOUI`. The legacy Asset Store setup fields
+do not control module compilation in this package.
 
-## Структура и обновления
+EPOOutline integration requires the separate third-party asset and references
+to its assemblies in `DOTween.Modules`. It is disabled by default.
+To change assembly references in a Git package, use your own repository fork
+or embed the package in your project.
 
-- `package.json` — манифест UPM.
-- `Runtime/` — DLL DOTween и исходники модулей с общей сборкой.
-- `Editor/` — инструменты редактора и изображения.
-- `readme.txt` — исходная инструкция Demigiant.
+## Package layout and updates
 
-Исходные DLL, скрипты и ресурсы сохранены без изменения содержимого.
-Оригинальные `DOTweenEditor.dll` и `DOTweenUpgradeManager.dll` сохранены,
-но отключены настройками Plugin Importer. В DOTween 1.3.045 штатный редактор
-ошибочно принимает UPM-кеш внутри `Library/PackageCache` за установку в `Assets`;
-помощник обновления также рассчитан на изменение и удаление файлов установки.
-Вместо них пакет содержит небольшую редакторскую сборку `DOTween.UPM.Editor`
-с меню настроек и Inspector. Оригинальная Utility Panel, редакторский preview
-и вспомогательные окна штатной DLL в этой упаковке недоступны.
-`DOTween.dll` доступна в редакторе и в сборках игры.
+- `package.json` contains the UPM manifest.
+- `Runtime/` contains the DOTween DLL and module sources with a shared assembly definition.
+- `Editor/` contains editor tools and images.
+- `readme.txt` contains Demigiant's original instructions.
 
-При обновлении замените исходные файлы, сохраните `.meta`, обновите версию
-в `package.json` и `CHANGELOG.md`, проверьте импорт и создайте новый Git-тег.
+The contents of the original DLLs, scripts, and resources are unchanged.
+The original `DOTweenEditor.dll` and `DOTweenUpgradeManager.dll` are retained
+but disabled through Plugin Importer settings. In DOTween 1.3.045, the original
+editor incorrectly treats the UPM cache under `Library/PackageCache` as an
+installation under `Assets`. The upgrade helper also expects to modify and
+delete installation files.
 
-Проверка этой упаковки выполняется в Unity **6000.3.9f1**. Совместимость
-с минимальной заявленной Unity 2021.3 отдельно не проверялась.
+Instead, this package includes a small `DOTween.UPM.Editor` assembly with a
+settings menu and Inspector. The original Utility Panel, editor preview, and
+other windows supplied by the original editor DLL are unavailable in this
+package. `DOTween.dll` is enabled in both the editor and player builds.
 
-## Лицензия и документация
+When updating DOTween, replace the upstream files, preserve their `.meta`
+files, update the version in `package.json` and `CHANGELOG.md`, verify the
+import, and create a new Git tag.
 
-DOTween принадлежит Daniele Giardini / Demigiant. Применяется
-[оригинальная лицензия DOTween](https://dotween.demigiant.com/license.php),
-см. [LICENSE.md](LICENSE.md) и [исходный readme](readme.txt).
-Эта упаковка не является официальным релизом Demigiant.
+This package was tested with Unity **6000.3.9f1**. Compatibility with the
+declared minimum version, Unity 2021.3, has not been tested separately.
 
-- [Документация DOTween](https://dotween.demigiant.com/documentation.php)
-- [Unity: создание пакетов](https://docs.unity3d.com/2021.3/Documentation/Manual/CustomPackages.html)
-- [Unity: Git-зависимости](https://docs.unity3d.com/2021.3/Documentation/Manual/upm-git.html)
+## License and documentation
+
+DOTween belongs to Daniele Giardini / Demigiant and is subject to the
+[original DOTween license](https://dotween.demigiant.com/license.php).
+See [LICENSE.md](LICENSE.md) and the [original readme](readme.txt).
+This package is not an official Demigiant release.
+
+- [DOTween documentation](https://dotween.demigiant.com/documentation.php)
+- [Unity: Creating custom packages](https://docs.unity3d.com/2021.3/Documentation/Manual/CustomPackages.html)
+- [Unity: Git dependencies](https://docs.unity3d.com/2021.3/Documentation/Manual/upm-git.html)
